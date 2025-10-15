@@ -1,0 +1,70 @@
+flowchart TD
+  A["User"] --> B["Web UI (React/Vite)"]
+
+  subgraph F["Frontend (project/src)"]
+    B --> C["Search/Input (Ticker, Keywords)"]
+    B --> L["Auth (Login/Register)"]
+    C --> D["Frontend Services (api.js, stockApi.js, advancedSentimentApi.js, portfolioService.js, realtimeService.ts)"]
+    L --> D
+    D -->|"REST/HTTP"| E["Backend API (Node/Express) - server.js"]
+  end
+
+  subgraph BE["Backend (project/backend)"]
+    E --> M["middleware/auth.js"]
+    E --> R1["routes/auth.js"]
+    E --> R2["routes/portfolio.js"]
+    E --> R3["routes/comments.js"]
+    E --> R4["routes/reports.js"]
+    E --> R5["routes/export.js"]
+    E --> R6["routes/integrations.js"]
+    E --> R7["routes/notifications.js"]
+
+    DB(("MongoDB collections: Users, Comments, Portfolio, Sessions"))
+    R1 --> DB
+    R2 --> DB
+    R3 --> DB
+    R4 --> DB
+    R5 --> DB
+    R6 --> DB
+    R7 --> DB
+  end
+
+  subgraph EXT["External Data/APIs"]
+    X1["Market/Price APIs"]
+    X2["News APIs"]
+    X3["Social Media/Sentiment APIs"]
+    X4["Realtime Price Stream (WebSocket/SSE)"]
+  end
+
+  R6 --> X1
+  R6 --> X2
+  R6 --> X3
+  D -->|"realtimeService"| X4
+  X4 -->|"Streamed Prices"| B
+
+  subgraph UI["UI Components"]
+    U1["SentimentDisplay.jsx"]
+    U2["NewsCard.jsx"]
+    U3["StockChart.jsx / RealtimePriceDisplay.tsx"]
+    U4["PerformanceAnalytics.jsx"]
+    U5["PortfolioManager.jsx"]
+  end
+
+  B --> U1
+  B --> U2
+  B --> U3
+  B --> U4
+  B --> U5
+
+  subgraph PH2["Future / Phase 2 Enhancements"]
+    H1["Model-based Sentiment Summaries (LLM)"]
+    H2["Vector DB for filings/news (RAG)"]
+    H3["Alerting & Notifications (thresholds, webhooks)"]
+    H4["Backtesting & Reports Automation"]
+  end
+
+  R6 --> H2
+  R7 --> H3
+  R4 --> H4
+  U1 --> H1
+

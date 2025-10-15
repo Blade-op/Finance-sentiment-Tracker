@@ -1,0 +1,265 @@
+/* Realtime Price Display Styles */
+.realtime-price-display {
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.realtime-price-display:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--shadow-medium);
+}
+
+.price-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.symbol {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.status-indicator {
+  transition: all 0.3s ease;
+}
+
+.status-indicator.connected {
+  color: var(--success-color);
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.disconnected {
+  color: var(--text-muted);
+}
+
+.status-text {
+  font-weight: 500;
+}
+
+.price-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.price-value.up {
+  animation: priceUp 0.5s ease-out;
+  color: var(--success-color);
+}
+
+.price-value.down {
+  animation: priceDown 0.5s ease-out;
+  color: var(--error-color);
+}
+
+.price-change {
+  margin-bottom: 0.5rem;
+}
+
+.change-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.change-indicator.positive {
+  color: var(--success-color);
+}
+
+.change-indicator.negative {
+  color: var(--error-color);
+}
+
+.change-value {
+  font-size: 1rem;
+}
+
+.change-percent {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.update-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+}
+
+.volume {
+  font-weight: 500;
+}
+
+.timestamp {
+  font-family: 'Courier New', monospace;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes priceUp {
+  0% {
+    transform: scale(1);
+    color: var(--text-primary);
+  }
+  50% {
+    transform: scale(1.05);
+    color: var(--success-color);
+  }
+  100% {
+    transform: scale(1);
+    color: var(--success-color);
+  }
+}
+
+@keyframes priceDown {
+  0% {
+    transform: scale(1);
+    color: var(--text-primary);
+  }
+  50% {
+    transform: scale(1.05);
+    color: var(--error-color);
+  }
+  100% {
+    transform: scale(1);
+    color: var(--error-color);
+  }
+}
+
+/* Live indicator pulse */
+.realtime-price-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--success-color), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.realtime-price-display:hover::before {
+  opacity: 1;
+  animation: liveIndicator 2s infinite;
+}
+
+@keyframes liveIndicator {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .realtime-price-display {
+    padding: 0.75rem;
+  }
+  
+  .price-value {
+    font-size: 1.5rem;
+  }
+  
+  .symbol {
+    font-size: 1rem;
+  }
+  
+  .change-indicator {
+    font-size: 0.8rem;
+  }
+  
+  .change-value {
+    font-size: 0.9rem;
+  }
+  
+  .update-info {
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .realtime-price-display {
+    padding: 0.5rem;
+  }
+  
+  .price-value {
+    font-size: 1.25rem;
+  }
+  
+  .price-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .connection-status {
+    font-size: 0.7rem;
+  }
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .realtime-price-display {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .realtime-price-display:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Loading state */
+.realtime-price-display.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.realtime-price-display.loading .status-indicator {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} 

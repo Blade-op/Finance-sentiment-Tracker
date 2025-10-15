@@ -1,0 +1,116 @@
+/* Theme Toggle Styles */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.toggle-track {
+  width: 48px;
+  height: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.toggle-track:hover {
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.toggle-thumb {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-thumb.light {
+  transform: translateX(0);
+}
+
+.toggle-thumb.dark {
+  transform: translateX(24px);
+}
+
+.toggle-icon {
+  color: #667eea;
+  transition: all 0.3s ease;
+}
+
+/* Dark mode specific styles */
+[data-theme="dark"] .toggle-track {
+  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  box-shadow: 0 2px 8px rgba(31, 41, 55, 0.3);
+}
+
+[data-theme="dark"] .toggle-track:hover {
+  box-shadow: 0 4px 12px rgba(31, 41, 55, 0.4);
+}
+
+[data-theme="dark"] .toggle-thumb {
+  background: #1f2937;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .toggle-icon {
+  color: #fbbf24;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .toggle-track {
+    width: 44px;
+    height: 22px;
+  }
+  
+  .toggle-thumb {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .toggle-thumb.dark {
+    transform: translateX(22px);
+  }
+  
+  .toggle-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Animation for theme transition */
+.theme-toggle * {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus styles for accessibility */
+.theme-toggle:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .theme-toggle:focus {
+  outline-color: #fbbf24;
+} 
