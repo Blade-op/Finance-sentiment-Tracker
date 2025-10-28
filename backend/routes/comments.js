@@ -9,7 +9,7 @@ router.get('/:targetType/:targetId', async (req, res) => {
     const comments = await Comment.find({ targetType, targetId }).sort({ createdAt: -1 });
     res.json(comments);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch comments' });
+    res.status(500).json({ error: 'Failed to fetch comments' });    /*updated from 401 to 500*/
   }
 });
 
