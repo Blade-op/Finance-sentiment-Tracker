@@ -14,7 +14,7 @@ const sampleData = [
 // Export to CSV
 router.get('/csv', (req, res) => {
   res.setHeader('Content-Type', 'text/csv');
-  res.setHeader('Content-Disposition', 'attachment; filename="data.csv"');
+  res.setHeader('Content-Disposition', 'attachment; filename="data.csv"');    /* filename updated to data.csv */
   const csvStream = format({ headers: true });
   csvStream.pipe(res);
   sampleData.forEach(row => csvStream.write(row));
