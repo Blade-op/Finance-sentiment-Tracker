@@ -39,7 +39,7 @@ app.use('/api/comments', commentsRouter);
 
 // API Keys Configuration
 const YAHOO_BASE_URL = 'https://query1.finance.yahoo.com/v8/finance';     /* Yahoo Finance Base URL */
-const NEWS_API_KEY = 'd200249f9c1f4721bbcb85edea0c953a';
+const NEWS_API_KEY = 'd200249f9c1f4721bbcb85edea0c953a';                  /* NewsAPI.org API Key */
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // Social Media API Keys (Add these to your .env file)
