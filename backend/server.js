@@ -43,7 +43,7 @@ const NEWS_API_KEY = 'd200249f9c1f4721bbcb85edea0c953a';                  /* New
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;                        /* OpenAI API Key */
 
 // Social Media API Keys (Add these to your .env file)
-const TWITTER_BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
+const TWITTER_BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;             /* Twitter Bearer Token */
 
 // NewsAPI.org configuration
 const NEWS_API_BASE_URL = 'https://newsapi.org/v2';
