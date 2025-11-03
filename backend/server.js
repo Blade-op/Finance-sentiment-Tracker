@@ -59,7 +59,7 @@ const calculateSMA = (prices, period) => {
   return sma;
 };
 
-const calculateEMA = (prices, period) => {
+const calculateEMA = (prices, period) => {                                 /* Calculate EMA*/
   if (prices.length < period) return [];
   const ema = [];
   const multiplier = 2 / (period + 1);
