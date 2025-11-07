@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');                                /* updated database schema for comments */
 
 const CommentSchema = new mongoose.Schema({
   user: { type: String, required: true }, // username or userId
