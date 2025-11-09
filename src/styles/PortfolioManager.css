@@ -713,4 +713,85 @@
   visibility: visible !important;
 } 
 
+/* --- Neo dark alignment --- */
+.portfolio-manager {
+  background: rgba(6, 9, 18, 0.95);
+  border-radius: 32px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 40px 90px rgba(3, 7, 18, 0.6);
+  color: #f8fafc;
+}
+
+.portfolio-header h2,
+.portfolio-overview h3,
+.portfolio-positions h3,
+.watchlist-content h3,
+.add-stock-content h3,
+.quick-actions h3 {
+  color: #f8fafc;
+}
+
+.portfolio-tabs {
+  background: rgba(12, 16, 28, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.portfolio-tab {
+  color: #cbd5f5;
+}
+
+.portfolio-tab.active {
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  box-shadow: 0 20px 45px rgba(37, 99, 235, 0.45);
+}
+
+.overview-card,
+.position-card,
+.watchlist-card,
+.add-stock-form,
+.quick-actions,
+.action-button,
+.empty-state,
+.detail-row,
+.session-item {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  color: #f8fafc !important;
+}
+
+.overview-content h4,
+.detail-row span:first-child,
+.watchlist-info p,
+.position-info p {
+  color: #cbd5f5 !important;
+}
+
+.overview-value,
+.current-price,
+.position-info h4,
+.watchlist-info h4 {
+  color: #f8fafc !important;
+}
+
+.add-stock-form input {
+  background: rgba(6, 9, 18, 0.9) !important;
+  color: #f8fafc !important;
+  border-color: rgba(148, 163, 184, 0.2) !important;
+}
+
+.add-stock-form label {
+  color: #cbd5f5 !important;
+}
+
+.quick-actions {
+  border-color: rgba(148, 163, 184, 0.22);
+  box-shadow: 0 20px 50px rgba(3, 7, 18, 0.45);
+}
+
+.action-button {
+  border: none;
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.35);
+}
+
  

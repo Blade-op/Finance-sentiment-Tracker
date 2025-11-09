@@ -391,6 +391,78 @@
   opacity: 0.6 !important;
 }
 
+/* --- Neo-dark hero alignment --- */
+.advanced-stock-container {
+  background: rgba(5, 7, 15, 0.92);
+  border-radius: 32px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 40px 90px rgba(3, 7, 18, 0.55);
+  color: #f8fafc;
+}
+
+.advanced-stock-container h2,
+.advanced-stock-container h3,
+.advanced-stock-container h4,
+.advanced-stock-container h5,
+.advanced-stock-container span,
+.advanced-stock-container p {
+  color: inherit;
+}
+
+.stock-header,
+.market-card,
+.trading-session,
+.technical-indicators,
+.indicator-card,
+.price-statistics,
+.stat-item,
+.price-chart,
+.chart-placeholder,
+.timeframe-btn {
+  background: rgba(11, 15, 25, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 20px 50px rgba(3, 7, 18, 0.45);
+  color: #f8fafc;
+}
+
+.timeframe-btn {
+  border-radius: 999px;
+  color: #cbd5f5;
+}
+
+.timeframe-btn.active {
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.45);
+}
+
+.session-item,
+.indicator-card,
+.stat-item,
+.topic-item {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #e2e8f0;
+}
+
+.topic-name,
+.topic-mentions,
+.topic-sentiment,
+.metric span,
+.metric .score {
+  color: inherit;
+}
+
+.metric .score,
+.overview-value,
+.current-price {
+  color: #f8fafc;
+}
+
+.read-article-link,
+.timeframe-btn:hover {
+  border-color: rgba(147, 197, 253, 0.6);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .advanced-stock-container {

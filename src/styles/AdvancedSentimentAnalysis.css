@@ -1,12 +1,11 @@
 /* Advanced Sentiment Analysis Styles */
 .advanced-sentiment-analysis {
   padding: 24px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(248, 250, 252, 0.1));
-  border-radius: 20px;
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(226, 232, 240, 0.3);
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
   margin: 20px 0;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.08);
 }
 
 .sentiment-header {
@@ -36,11 +35,10 @@
   display: flex;
   gap: 10px;
   margin-bottom: 32px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(248, 250, 252, 0.1));
+  background: #f1f5f9;
   padding: 10px;
   border-radius: 16px;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.2);
+  border: 1px solid rgba(15, 23, 42, 0.05);
 }
 
 .sentiment-tabs button {
@@ -48,7 +46,7 @@
   padding: 14px 18px;
   border: none;
   background: transparent;
-  color: #64748b;
+  color: #475569;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -294,10 +292,10 @@
 
 .platform-card {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.07);
 }
 
 .platform-card.twitter {
@@ -323,10 +321,11 @@
 
 .mentions {
   font-size: 14px;
-  color: #6b7280;
-  background: rgba(0, 0, 0, 0.05);
-  padding: 4px 8px;
-  border-radius: 4px;
+  color: #0f172a;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
 }
 
 .sentiment-breakdown {
@@ -351,8 +350,8 @@
 }
 
 .sentiment-item.neutral {
-  background: rgba(107, 114, 128, 0.1);
-  color: #374151;
+  background: rgba(234, 179, 8, 0.08);
+  color: #92400e;
 }
 
 .sentiment-item.negative {
@@ -400,9 +399,10 @@
 
 .overall-social {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.07);
 }
 
 .overall-social h4 {
@@ -472,9 +472,10 @@
   flex-direction: column;
   align-items: center;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.05);
 }
 
 .metric span:first-child {
@@ -509,10 +510,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  padding: 14px 18px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.05);
 }
 
 .topic-name {
@@ -532,9 +534,10 @@
 
 .ai-analysis {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.07);
 }
 
 .ai-analysis h4 {
@@ -598,9 +601,10 @@
   align-items: center;
   margin-bottom: 30px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.07);
 }
 
 .total-analysts {
@@ -648,9 +652,10 @@
 .consensus {
   margin-bottom: 30px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.07);
 }
 
 .consensus h4 {
@@ -706,9 +711,10 @@
   flex-direction: column;
   align-items: center;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.05);
 }
 
 .target-item span:first-child {
@@ -725,9 +731,10 @@
 
 .recent-updates {
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.07);
 }
 
 .recent-updates h4 {
@@ -743,9 +750,9 @@
 }
 
 .update-item {
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  padding: 18px;
+  background: #f8fafc;
+  border-radius: 12px;
   border-left: 4px solid #3b82f6;
 }
 
@@ -811,10 +818,10 @@
 .timeframe-selector {
   display: flex;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: #f1f5f9;
   padding: 4px;
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .timeframe-selector button {
@@ -851,9 +858,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.05);
 }
 
 .summary-item span:first-child {
@@ -887,10 +895,11 @@
 
 /* Sentiment Trend Chart */
 .sentiment-trend-chart {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: #ffffff;
+  border-radius: 20px;
   padding: 20px;
-  backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.07);
 }
 
 .chart-container {
@@ -936,8 +945,68 @@
   align-items: center;
   justify-content: center;
   height: 200px;
-  color: #6b7280;
+  color: #475569;
   font-style: italic;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+/* --- Neo dark alignment --- */
+.advanced-sentiment-analysis {
+  background: rgba(5, 7, 15, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 32px;
+  box-shadow: 0 40px 90px rgba(3, 7, 18, 0.6);
+  color: #f8fafc;
+}
+
+.sentiment-tabs,
+.platform-card,
+.overall-social,
+.metric,
+.topics-list .topic-item,
+.ai-analysis,
+.ratings-summary,
+.consensus,
+.targets-grid .target-item,
+.recent-updates,
+.timeframe-selector,
+.summary-item,
+.sentiment-trend-chart,
+.chart-placeholder {
+  background: rgba(12, 15, 28, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 20px 50px rgba(3, 7, 18, 0.45);
+  color: inherit;
+}
+
+.sentiment-tabs button {
+  color: #cbd5f5;
+}
+
+.sentiment-tabs button.active {
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  box-shadow: 0 20px 45px rgba(37, 99, 235, 0.5);
+}
+
+.platform-header h4,
+.overall-score .score,
+.metric .score,
+.topics-list .topic-name,
+.sentiment-header h2,
+.sentiment-factors h3,
+.analyst-ratings-section h3 {
+  color: #f8fafc;
+}
+
+.mentions,
+.article-timestamp,
+.rating-label,
+.consensus-confidence,
+.consensus-upside,
+.price-targets span:first-child,
+.topic-mentions {
+  color: #94a3b8;
 }
 
 /* Animations */

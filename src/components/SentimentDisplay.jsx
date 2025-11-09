@@ -2,6 +2,8 @@ import React from 'react';
 import { TrendingUp, TrendingDown, Minus, BarChart3 } from 'lucide-react';
 import '../styles/SentimentDisplay.css';
 
+const MAX_NEWS_ARTICLES = 20;
+
 const SentimentDisplay = ({ stockData, articles }) => {
   // Destructure the properties from stockData with fallbacks
   const {
@@ -13,30 +15,34 @@ const SentimentDisplay = ({ stockData, articles }) => {
     priceChange = 0,
     priceChangePercent = 0
   } = stockData || {};
-  const getSentimentColor = (sentiment) => {
-    if (sentiment > 0.1) return 'positive';
-    if (sentiment < -0.1) return 'negative';
+  const getSentimentCategory = (sentiment = 0) => {
+    if (sentiment <= -0.02) return 'negative';
+    if (sentiment >= 0.02) return 'positive';
     return 'neutral';
   };
 
+  const getSentimentColor = (sentiment) => getSentimentCategory(sentiment);
+
   const getSentimentIcon = (sentiment) => {
-    if (sentiment > 0.1) return <TrendingUp className="sentiment-icon" />;
-    if (sentiment < -0.1) return <TrendingDown className="sentiment-icon" />;
+    const category = getSentimentCategory(sentiment);
+    if (category === 'positive') return <TrendingUp className="sentiment-icon" />;
+    if (category === 'negative') return <TrendingDown className="sentiment-icon" />;
     return <Minus className="sentiment-icon" />;
   };
 
   const getSentimentText = (sentiment) => {
-    if (sentiment > 0.3) return 'Very Positive';
-    if (sentiment > 0.1) return 'Positive';
-    if (sentiment < -0.3) return 'Very Negative';
-    if (sentiment < -0.1) return 'Negative';
+    const category = getSentimentCategory(sentiment);
+    if (category === 'positive') return 'Positive';
+    if (category === 'negative') return 'Negative';
     return 'Neutral';
   };
 
   const getSentimentDescription = (sentiment) => {
-    if (sentiment > 0.1) {
+    const category = getSentimentCategory(sentiment);
+    if (category === 'positive') {
       return 'Market sentiment suggests potential upward movement';
-    } else if (sentiment < -0.1) {
+    }
+    if (category === 'negative') {
       return 'Market sentiment indicates possible downward pressure';
     }
     return 'Market sentiment appears balanced with mixed signals';
@@ -44,6 +50,69 @@ const SentimentDisplay = ({ stockData, articles }) => {
 
   const sentimentColor = getSentimentColor(averageSentiment || 0);
   const sentimentPercentage = (((averageSentiment || 0) + 1) / 2 * 100).toFixed(1);
+
+  const limitedArticles = (articles || []).slice(0, MAX_NEWS_ARTICLES);
+
+  const renderArticleCard = (article, index) => (
+    <div key={`${article.url}-${index}`} className="news-article-card">
+      <div className="article-content">
+        <div className="article-main">
+          <h4 className="article-title">
+            <a 
+              href={article.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="article-link"
+            >
+              {article.title}
+            </a>
+          </h4>
+          <div className="article-meta">
+            <span className="article-timestamp">
+              {new Date(article.publishedAt).toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+              })}
+            </span>
+          </div>
+          <p className="article-description">{article.description}</p>
+          <div className="article-action">
+            <a 
+              href={article.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="read-article-link"
+            >
+              Read full article
+            </a>
+          </div>
+        </div>
+        <div className="article-sentiment-display">
+          <div className={`sentiment-score-large ${getSentimentCategory(article.sentiment || 0)}`}>
+            {article.sentiment > 0 ? '+' : ''}{(article.sentiment || 0).toFixed(2)}
+          </div>
+          <div className={`sentiment-label-large ${getSentimentCategory(article.sentiment || 0)}`}>
+            {getSentimentText(article.sentiment || 0).toUpperCase()}
+          </div>
+          {article.image && (
+            <div className="article-image-container">
+              <img 
+                src={article.image} 
+                alt="Article thumbnail"
+                className="article-image"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className={`sentiment-display ${sentimentColor}`}>
@@ -80,7 +149,7 @@ const SentimentDisplay = ({ stockData, articles }) => {
             <div className="sentiment-score">
               {(averageSentiment || 0) > 0 ? '+' : ''}{(averageSentiment || 0).toFixed(3)}
             </div>
-            <div className="sentiment-label">
+            <div className={`sentiment-label ${sentimentColor}`}>
               {getSentimentText(averageSentiment || 0)}
             </div>
           </div>
@@ -106,70 +175,14 @@ const SentimentDisplay = ({ stockData, articles }) => {
       </div>
 
       {/* News Articles Section */}
-      {articles && articles.length > 0 && (
+      {limitedArticles.length > 0 && (
         <div className="news-articles-section">
-          <h3 className="news-section-title">Recent News Articles</h3>
+          <h3 className="news-section-title">
+            Recent News Articles (showing {limitedArticles.length}
+            {articles && articles.length > MAX_NEWS_ARTICLES ? ` of ${articles.length}` : ''})
+          </h3>
           <div className="news-articles-list">
-            {articles.map((article, index) => (
-              <div key={index} className="news-article-card">
-                <div className="article-content">
-                  <div className="article-main">
-                    <h4 className="article-title">
-                      <a 
-                        href={article.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="article-link"
-                      >
-                        {article.title}
-                      </a>
-                    </h4>
-                    <div className="article-meta">
-                      <span className="article-timestamp">
-                        {new Date(article.publishedAt).toLocaleString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          hour12: true
-                        })}
-                      </span>
-                    </div>
-                    <p className="article-description">{article.description}</p>
-                    <div className="article-action">
-                      <a 
-                        href={article.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="read-article-link"
-                      >
-                        Read full article
-                      </a>
-                    </div>
-                  </div>
-                  <div className="article-sentiment-display">
-                    <div className="sentiment-score-large">
-                      {article.sentiment > 0 ? '+' : ''}{(article.sentiment || 0).toFixed(2)}
-                    </div>
-                    <div className="sentiment-label-large">
-                      {getSentimentText(article.sentiment || 0).toUpperCase()}
-                    </div>
-                    {article.image && (
-                      <div className="article-image-container">
-                        <img 
-                          src={article.image} 
-                          alt="Article thumbnail"
-                          className="article-image"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+            {limitedArticles.map((article, index) => renderArticleCard(article, index))}
           </div>
         </div>
       )}
