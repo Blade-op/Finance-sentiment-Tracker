@@ -23,6 +23,22 @@
   --font-base: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+[data-theme='light'] {
+  --bg-primary: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 45%, #c7d2fe 100%);
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-hover: rgba(248, 250, 252, 0.95);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --border-color: rgba(15, 23, 42, 0.08);
+  --shadow-light: rgba(15, 23, 42, 0.08);
+  --shadow-medium: rgba(15, 23, 42, 0.15);
+  --accent-primary: #4f46e5;
+  --accent-secondary: #14b8a6;
+  --gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --gradient-secondary: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -170,6 +186,52 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 1.5rem;
+}
+
+[data-theme='light'] .app,
+[data-theme='light'] body {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+
+[data-theme='light'] .app-header {
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme='light'] .app-title {
+  color: var(--text-primary);
+}
+
+[data-theme='light'] .tab-button {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(148, 163, 184, 0.25);
+  color: var(--text-secondary);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme='light'] .tab-button:hover {
+  border-color: rgba(79, 70, 229, 0.45);
+  color: #312e81;
+}
+
+[data-theme='light'] .tab-button.active {
+  box-shadow: 0 20px 35px rgba(79, 70, 229, 0.25);
+}
+
+[data-theme='light'] .auth-required,
+[data-theme='light'] .auth-prompt {
+  color: var(--text-primary);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.1);
+}
+
+[data-theme='light'] .results-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme='light'] .no-results {
+  color: var(--text-secondary);
 }
 
 .no-results {

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Eye, TrendingUp, TrendingDown, DollarSign, Percent, BarChart3 } from 'lucide-react';
+import { Plus, Trash2, Eye, TrendingUp, TrendingDown, DollarSign, BarChart3 } from 'lucide-react';
 import AdvancedStockApiService from '../services/advancedStockApi';
 import PerformanceAnalytics from './PerformanceAnalytics';
 import '../styles/PortfolioManager.css';
 import axios from 'axios';
+import jsPDF from 'jspdf';
 
 const PortfolioManager = ({ symbol }) => {
   const [portfolio, setPortfolio] = useState([]);
@@ -210,6 +211,17 @@ const PortfolioManager = ({ symbol }) => {
     };
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) return dateString;
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
   const calculatePortfolioStats = () => {
     if (portfolio.length === 0) return null;
 
@@ -241,12 +253,105 @@ const PortfolioManager = ({ symbol }) => {
     }).format(num);
   };
 
-  const formatNumber = (num) => {
-    if (num === null || num === undefined) return 'N/A';
-    if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
-    if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
-    if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
-    return num.toFixed(2);
+  const downloadBlob = (blob, filename) => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportCSV = () => {
+    if (!portfolio.length) {
+      alert('No portfolio positions to export.');
+      return;
+    }
+
+    const headers = [
+      'Symbol',
+      'Company',
+      'Shares',
+      'Buy Price',
+      'Current Price',
+      'Total Cost',
+      'Current Value',
+      'PnL',
+      'PnL %',
+      'Buy Date',
+      'Last Updated'
+    ];
+
+    const rows = portfolio.map((position) => {
+      const stats = calculatePositionStats(position);
+      return [
+        position.symbol,
+        position.companyName,
+        position.shares,
+        position.buyPrice,
+        position.currentPrice ?? position.buyPrice,
+        stats.totalCost.toFixed(2),
+        stats.currentValue.toFixed(2),
+        stats.pnl.toFixed(2),
+        stats.pnlPercent.toFixed(2),
+        formatDate(position.buyDate),
+        formatDate(position.lastUpdated)
+      ];
+    });
+
+    const csvContent = [headers, ...rows]
+      .map(row =>
+        row
+          .map(value => `"${String(value).replace(/"/g, '""')}"`)
+          .join(',')
+      )
+      .join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    downloadBlob(blob, `portfolio-${new Date().toISOString().split('T')[0]}.csv`);
+  };
+
+  const handleExportPDF = () => {
+    if (!portfolio.length) {
+      alert('No portfolio positions to export.');
+      return;
+    }
+
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text('Portfolio Summary', 14, 20);
+    doc.setFontSize(11);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 28);
+
+    let y = 40;
+
+    portfolio.forEach((position, index) => {
+      const stats = calculatePositionStats(position);
+      if (y > 270) {
+        doc.addPage();
+        y = 20;
+      }
+
+      doc.setFontSize(13);
+      doc.text(`${index + 1}. ${position.symbol} — ${position.companyName}`, 14, y);
+      y += 6;
+      doc.setFontSize(11);
+      doc.text(`Shares: ${position.shares}`, 14, y);
+      doc.text(`Buy Price: ${formatCurrency(position.buyPrice)}`, 90, y);
+      doc.text(`Current Price: ${formatCurrency(position.currentPrice ?? position.buyPrice)}`, 180, y);
+      y += 6;
+      doc.text(`Total Cost: ${formatCurrency(stats.totalCost)}`, 14, y);
+      doc.text(`Current Value: ${formatCurrency(stats.currentValue)}`, 90, y);
+      doc.text(`P&L: ${formatCurrency(stats.pnl)} (${stats.pnlPercent.toFixed(2)}%)`, 200, y);
+      y += 6;
+      doc.text(`Buy Date: ${formatDate(position.buyDate)}`, 14, y);
+      doc.text(`Last Updated: ${formatDate(position.lastUpdated)}`, 90, y);
+      y += 10;
+    });
+
+    doc.save(`portfolio-${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   const portfolioStats = calculatePortfolioStats();
@@ -308,45 +413,113 @@ const PortfolioManager = ({ symbol }) => {
       {activeTab === 'portfolio' && (
         <div className="portfolio-content">
           {/* Export Buttons */}
-          <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-            <button onClick={() => window.open('/api/export/csv', '_blank')} className="export-btn">Export CSV</button>
-            <button onClick={() => window.open('/api/export/pdf', '_blank')} className="export-btn">Export PDF</button>
+          <div className="export-actions">
+            <button onClick={handleExportCSV} className="export-btn">Export CSV</button>
+            <button onClick={handleExportPDF} className="export-btn">Export PDF</button>
           </div>
-          {portfolioStats && (
-            <div className="portfolio-overview">
-              <h3>Portfolio Overview</h3>
-              <div className="overview-grid">
-                <div className="overview-card">
-                  <div className="overview-icon">
-                    <DollarSign size={24} />
-                  </div>
-                  <div className="overview-content">
-                    <h4>Total Value</h4>
-                    <p className="overview-value">{formatCurrency(portfolioStats.totalCurrentValue)}</p>
+
+          {portfolio.length === 0 ? (
+            <div className="empty-state">
+              <h3>No positions yet</h3>
+              <p>Add stocks to your portfolio to see analytics</p>
+            </div>
+          ) : (
+            <>
+              {portfolioStats && (
+                <div className="portfolio-overview">
+                  <h3>Portfolio Overview</h3>
+                  <div className="overview-grid">
+                    <div className="overview-card">
+                      <div className="overview-icon">
+                        <DollarSign size={24} />
+                      </div>
+                      <div className="overview-content">
+                        <h4>Total Value</h4>
+                        <p className="overview-value">{formatCurrency(portfolioStats.totalCurrentValue)}</p>
+                      </div>
+                    </div>
+                    <div className="overview-card">
+                      <div className="overview-icon">
+                        <TrendingUp size={24} />
+                      </div>
+                      <div className="overview-content">
+                        <h4>Total P&L</h4>
+                        <p className={`overview-value ${portfolioStats.totalPnl >= 0 ? 'positive' : 'negative'}`}>
+                          {formatCurrency(portfolioStats.totalPnl)} ({portfolioStats.totalPnlPercent.toFixed(2)}%)
+                        </p>
+                      </div>
+                    </div>
+                    <div className="overview-card">
+                      <div className="overview-icon">
+                        <BarChart3 size={24} />
+                      </div>
+                      <div className="overview-content">
+                        <h4>Positions</h4>
+                        <p className="overview-value">{portfolioStats.totalPositions}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="overview-card">
-                  <div className="overview-icon">
-                    <TrendingUp size={24} />
-                  </div>
-                  <div className="overview-content">
-                    <h4>Total P&L</h4>
-                    <p className={`overview-value ${portfolioStats.totalPnl >= 0 ? 'positive' : 'negative'}`}>
-                      {formatCurrency(portfolioStats.totalPnl)} ({portfolioStats.totalPnlPercent.toFixed(2)}%)
-                    </p>
-                  </div>
-                </div>
-                <div className="overview-card">
-                  <div className="overview-icon">
-                    <BarChart3 size={24} />
-                  </div>
-                  <div className="overview-content">
-                    <h4>Positions</h4>
-                    <p className="overview-value">{portfolioStats.totalPositions}</p>
-                  </div>
+              )}
+
+              <div className="portfolio-positions">
+                <h3>Your Positions</h3>
+                <div className="positions-grid">
+                  {portfolio.map((position) => {
+                    const stats = calculatePositionStats(position);
+                    const isGain = stats.pnl >= 0;
+                    return (
+                      <div key={position.id} className="position-card">
+                        <div className="position-header">
+                          <div className="position-info">
+                            <h4>{position.symbol}</h4>
+                            <p>{position.companyName}</p>
+                          </div>
+                          <button
+                            className="remove-button"
+                            onClick={() => removeFromPortfolio(position.id)}
+                            title="Remove from portfolio"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+
+                        <div className="position-details">
+                          <div className="detail-row">
+                            <span>Shares</span>
+                            <span>{Number(position.shares).toLocaleString()}</span>
+                          </div>
+                          <div className="detail-row">
+                            <span>Avg. Buy Price</span>
+                            <span>{formatCurrency(position.buyPrice)}</span>
+                          </div>
+                          <div className="detail-row">
+                            <span>Current Price</span>
+                            <span>{formatCurrency(position.currentPrice ?? position.buyPrice)}</span>
+                          </div>
+                          <div className="detail-row">
+                            <span>Market Value</span>
+                            <span>{formatCurrency(stats.currentValue)}</span>
+                          </div>
+                          <div className="detail-row">
+                            <span>Buy Date</span>
+                            <span>{formatDate(position.buyDate)}</span>
+                          </div>
+                        </div>
+
+                        <div className="position-pnl">
+                          <div className={`pnl-indicator ${isGain ? 'positive' : 'negative'}`}>
+                            {isGain ? <TrendingUp size={18} /> : <TrendingDown size={18} />}
+                            <span className="pnl-amount">{formatCurrency(stats.pnl)}</span>
+                            <span className="pnl-percent">({stats.pnlPercent.toFixed(2)}%)</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
+            </>
           )}
           {/* Email Alert Button */}
           <div style={{ margin: '1rem 0' }}>

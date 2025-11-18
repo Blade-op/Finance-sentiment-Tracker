@@ -161,6 +161,42 @@
   pointer-events: none;
 }
 
+[data-theme='light'] .sentiment-display {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 30px 55px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme='light'] .sentiment-title {
+  color: #0f172a;
+}
+
+[data-theme='light'] .sentiment-meta,
+[data-theme='light'] .stock-price-info {
+  color: #475569;
+}
+
+[data-theme='light'] .sentiment-score-large,
+[data-theme='light'] .sentiment-label-large {
+  color: #0f172a;
+}
+
+[data-theme='light'] .news-article-card {
+  background: rgba(248, 250, 252, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme='light'] .article-sentiment-display {
+  background: rgba(235, 248, 255, 0.9);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+[data-theme='light'] .news-articles-section::before {
+  background: radial-gradient(circle at 80% 20%, rgba(79, 70, 229, 0.15), transparent 65%);
+  opacity: 1;
+}
+
 .news-articles-section > * {
   position: relative;
   z-index: 1;

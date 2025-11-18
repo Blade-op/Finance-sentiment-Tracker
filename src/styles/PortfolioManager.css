@@ -185,6 +185,38 @@
   color: #dc2626;
 }
 
+.export-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.export-btn {
+  flex: 1 1 180px;
+  min-width: 180px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  color: #e0e7ff;
+  padding: 0.85rem 1.25rem;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 15px 35px rgba(59, 130, 246, 0.3);
+}
+
+.portfolio-positions {
+  margin-top: 2.5rem;
+}
+
 /* Portfolio Positions */
 .portfolio-positions h3 {
   margin-bottom: 1.5rem;
@@ -305,6 +337,32 @@
 .pnl-percent {
   font-size: 0.9rem;
   opacity: 0.8;
+}
+
+.alert-btn,
+.api-info-toggle {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
+  padding: 0.85rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.alert-btn:hover,
+.api-info-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.api-info-box {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #f8fafc;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.5);
 }
 
 /* Watchlist */
@@ -792,6 +850,63 @@
 .action-button {
   border: none;
   box-shadow: 0 15px 35px rgba(37, 99, 235, 0.35);
+}
+
+[data-theme='light'] .portfolio-manager {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.15);
+  color: #0f172a;
+}
+
+[data-theme='light'] .portfolio-header h2,
+[data-theme='light'] .portfolio-overview h3,
+[data-theme='light'] .portfolio-positions h3,
+[data-theme='light'] .watchlist-content h3,
+[data-theme='light'] .add-stock-content h3,
+[data-theme='light'] .quick-actions h3 {
+  color: #0f172a;
+}
+
+[data-theme='light'] .overview-card,
+[data-theme='light'] .position-card,
+[data-theme='light'] .watchlist-card,
+[data-theme='light'] .add-stock-form,
+[data-theme='light'] .quick-actions,
+[data-theme='light'] .action-button,
+[data-theme='light'] .empty-state {
+  background: rgba(248, 250, 252, 0.98) !important;
+  border-color: rgba(148, 163, 184, 0.2) !important;
+  color: #0f172a !important;
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.15);
+}
+
+[data-theme='light'] .overview-content h4,
+[data-theme='light'] .detail-row span:first-child,
+[data-theme='light'] .watchlist-info p,
+[data-theme='light'] .position-info p {
+  color: #475569 !important;
+}
+
+[data-theme='light'] .overview-value,
+[data-theme='light'] .current-price,
+[data-theme='light'] .position-info h4,
+[data-theme='light'] .watchlist-info h4 {
+  color: #0f172a !important;
+}
+
+[data-theme='light'] .add-stock-form input {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(148, 163, 184, 0.35) !important;
+  color: #0f172a !important;
+}
+
+[data-theme='light'] .add-stock-form label {
+  color: #475569 !important;
+}
+
+[data-theme='light'] .action-button {
+  box-shadow: 0 15px 35px rgba(79, 70, 229, 0.25);
 }
 
  
