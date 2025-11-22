@@ -635,6 +635,10 @@ const searchSymbols = async (query) => {
   }
 };
 
+// Track OpenAI rate limit status
+let openAIRateLimited = false;
+let openAIRateLimitResetTime = null;
+
 // Enhanced sentiment analysis function with OpenAI integration
 const analyzeSentiment = async (text) => {
   if (!text) return 0;
@@ -642,6 +646,18 @@ const analyzeSentiment = async (text) => {
   // If OpenAI API key is not configured, use the basic sentiment analysis
   if (!OPENAI_API_KEY || OPENAI_API_KEY === 'your_openai_api_key_here') {
     return analyzeSentimentBasic(text);
+  }
+
+  // Check if we're currently rate limited
+  if (openAIRateLimited && openAIRateLimitResetTime && Date.now() < openAIRateLimitResetTime) {
+    // Still rate limited, use basic analysis
+    return analyzeSentimentBasic(text);
+  }
+
+  // Reset rate limit flag if time has passed
+  if (openAIRateLimited && openAIRateLimitResetTime && Date.now() >= openAIRateLimitResetTime) {
+    openAIRateLimited = false;
+    openAIRateLimitResetTime = null;
   }
 
   try {
@@ -664,7 +680,8 @@ const analyzeSentiment = async (text) => {
       headers: {
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
         'Content-Type': 'application/json'
-      }
+      },
+      timeout: 10000 // 10 second timeout
     });
 
     const result = response.data.choices[0].message.content.trim();
@@ -677,8 +694,36 @@ const analyzeSentiment = async (text) => {
     
     return Math.max(-1, Math.min(1, sentiment));
   } catch (error) {
-    console.error('OpenAI sentiment analysis error:', error.message);
-    // Fall back to basic sentiment analysis
+    // Handle rate limit errors (429)
+    if (error.response?.status === 429) {
+      openAIRateLimited = true;
+      // Set reset time to 60 seconds from now (OpenAI typically resets quickly)
+      openAIRateLimitResetTime = Date.now() + 60000;
+      // Only log once to avoid spam
+      if (!openAIRateLimitResetTime || Date.now() > openAIRateLimitResetTime - 50000) {
+        console.warn('OpenAI rate limit reached. Using basic sentiment analysis. Will retry in 60 seconds.');
+      }
+      return analyzeSentimentBasic(text);
+    }
+    
+    // Handle authentication errors (401)
+    if (error.response?.status === 401) {
+      console.error('OpenAI API key is invalid. Please check your OPENAI_API_KEY in Render environment variables.');
+      return analyzeSentimentBasic(text);
+    }
+    
+    // Handle other errors silently (fallback to basic)
+    if (error.response?.status >= 500) {
+      // Server errors - temporary, don't spam logs
+      return analyzeSentimentBasic(text);
+    }
+    
+    // For other errors, log once but don't spam
+    if (Math.random() < 0.1) { // Only log 10% of errors to avoid spam
+      console.error('OpenAI sentiment analysis error:', error.response?.status || error.message);
+    }
+    
+    // Always fall back to basic sentiment analysis
     return analyzeSentimentBasic(text);
   }
 };
