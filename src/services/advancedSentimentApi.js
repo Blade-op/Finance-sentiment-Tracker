@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+import { API_BASE_URL_WITH_API } from '../config/api';
+
+const API_BASE_URL = API_BASE_URL_WITH_API;
 
 class AdvancedSentimentApi {
   // Get social media sentiment

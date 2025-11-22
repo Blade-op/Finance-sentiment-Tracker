@@ -19,10 +19,28 @@ const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Middleware
+// Get frontend URL from environment variable or use defaults
+const FRONTEND_URL = process.env.FRONTEND_URL;
+const allowedOrigins = NODE_ENV === 'production' 
+  ? [
+      FRONTEND_URL, // User's Vercel frontend URL
+      'https://finance-sentiment-tracker.vercel.app', // Default Vercel URL (update with your actual URL)
+      'https://your-frontend-domain.vercel.app',
+      'https://your-frontend-domain.netlify.app'
+    ].filter(Boolean) // Remove undefined values
+  : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'];
+
 app.use(cors({
-  origin: NODE_ENV === 'production' 
-    ? ['https://your-frontend-domain.vercel.app', 'https://your-frontend-domain.netlify.app'] 
-    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || NODE_ENV === 'development') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());

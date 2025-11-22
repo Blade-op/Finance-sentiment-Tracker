@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.DEV ? 'http://localhost:5000' : 'https://your-backend-domain.railway.app');
+import { API_BASE_URL as CONFIG_API_BASE_URL } from '../config/api';
+
+const API_BASE_URL = CONFIG_API_BASE_URL;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
