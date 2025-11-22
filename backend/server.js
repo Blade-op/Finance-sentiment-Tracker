@@ -23,10 +23,9 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const allowedOrigins = NODE_ENV === 'production' 
   ? [
-      FRONTEND_URL, // User's Vercel frontend URL
-      'https://finance-sentiment-tracker.vercel.app', // Default Vercel URL (update with your actual URL)
-      'https://your-frontend-domain.vercel.app',
-      'https://your-frontend-domain.netlify.app'
+      FRONTEND_URL, // User's Vercel frontend URL from env
+      'https://finance-sentiment-tracker.vercel.app', // Production Vercel URL
+      'https://finance-sentiment-tracker-c9j0fvvrv-blade-ops-projects.vercel.app', // Preview deployment URL
     ].filter(Boolean) // Remove undefined values
   : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'];
 
@@ -35,11 +34,27 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || NODE_ENV === 'development') {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+    // In development, allow all localhost origins
+    if (NODE_ENV === 'development') {
+      return callback(null, true);
     }
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    
+    // Allow any Vercel preview deployment (pattern: *.vercel.app)
+    if (origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    
+    // Allow any Vercel custom domain (pattern: *.vercel.app or custom domain)
+    if (origin.includes('vercel.app') || origin.includes('vercel.com')) {
+      return callback(null, true);
+    }
+    
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
